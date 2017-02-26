@@ -148,7 +148,23 @@ def getAccuracy(testSet, predictions):
                 if testSet[x][-1] == predictions[x]:
                         correct += 1
         return (correct/float(len(testSet))) * 100.0
-
+def fscorecalc():
+    AH_data = pd.read_csv("DT_Data.csv", encoding = "ISO-8859-1")
+    data_clean = AH_data.dropna()
+    predictors = data_clean[['kids',	'say',	'things',	'president',	'diet',	'fitnessliving',	'wellparenting',	'tv',	'search',	'crime',	'east',	'digital',	'shows',	'kelly',	'wallace',	'november',	'chat',	'facebook',	'messenger',	'find',	'world',	'many',	'want',	'videos',	'must',	'watch',	'run',	'according',	'large',	'family',	'life',	'read',	'parents',	'twitter',	'school',	'interest',	'much',	'also',	'absolutely',	'ever',	'office',	'land',	'thing',	'go',	'could',	'told',	'america',	'march',	'presidential',	'campaign',	'end',	'million',	'order',	'get',	'money',	'first',	'take',	'time',	'might',	'american',	'times',	'way',	'election',	'children',	'inc',	'country',	'leader',	'free',	'high',	'thought',	'know',	'good',	'candidates',	'definitely',	'part',	'white',	'house',	'four',	'years',	'vice',	'top',	'young',	'really',	'call',	'public',	'service',	'show',	'beyond',	'vote',	'artist',	'model',	'someone',	'cancer',	'helping',	'animals',	'asked',	'make',	'better',	'place',	'latest',	'share',	'comments',	'health',	'hillary',	'clinton',	'female',	'even',	'actually',	'chance',	'lady',	'content',	'pay',	'card',	'save',	'enough',	'reverse',	'risk',	'paid',	'partner',	'cards',	'around',	'next',	'generation',	'big',	'network',	'system',	'rights',	'reserved',	'terms',	'mexican',	'meeting',	'trump',	'january',	'mexico',	'different',	'route',	'border',	'immigrants',	'trying',	'donald',	'wall',	'billion',	'signs',	'executive',	'actions',	'building',	'along',	'southern',	'nowstory',	'believe',	'fruitless',	'thursday',	'set',	'week',	'plan',	'tuesday',	'something',	'recently',	'wednesday',	'needed',	'tweet',	'trade',	'nafta',	'massive',	'@realdonaldtrump',	'jobs',	'companies',	'remarks',	'gathering',	'congressional',	'republicans',	'planned',	'together',	'unless',	'senate',	'gop',	'lawmakers',	'security',	'national',	'problem',	'illegal',	'immigration',	'see',	'need',	'statement',	'back',	'two',	'leaders',	'last',	'year',	'days',	'called',	'action',	'begin',	'process',	'announced',	'move',	'level',	'foreign',	'representatives',	'come',	'since',	'officials',	'including',	'staff',	'minister',	'government',	'team',	'car',	'department',	'homeland',	'work',	'help',	'united',	'states',	'forces',	'number',	'officers',	'visit',	'try',	'able',	'related',	'monday',	'migrants',	'home',	'city',	'conversation',	'made']]
+    targets = data_clean.SITE
+    accuracy_list = []
+    kf = KFold(n_splits=5)
+    for training, testing in kf.split(targets):
+        pred_train = predictors.ix[training]
+        tar_train = targets[training]
+        pred_test = predictors.ix[testing]
+        tar_test = targets[testing]
+        classifier=DecisionTreeClassifier()
+        classifier=classifier.fit(pred_train,tar_train)
+        predictions=classifier.predict(pred_test)
+    print(classification_report(tar_test,predictions))
+    return
 def main():
         # prepare data
         trainingSet=[]
@@ -197,6 +213,7 @@ def main():
         accuracy = getAccuracy(testSet, predictions)
         l.append(accuracy)
         print('Accuracy: ' + repr(accuracy) + '%')
+        fscorecalc()
 
 for x in range(5):
     main()
