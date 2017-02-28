@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 import csv
 subprocess.call('python KNN.py',shell=True)
 subprocess.call('python Decision_Tree.py',shell=True)
-
 # subprocess.call('python KNN_Varying_K.py',shell=True)
+
 os.remove('1.pdf')
 os.remove('2.pdf')
 os.remove('3.pdf')
