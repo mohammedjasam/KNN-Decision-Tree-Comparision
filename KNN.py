@@ -77,6 +77,12 @@ for x in range(5):
         pred_i = knn.predict(pred_test)
         error_rate.append(np.mean(pred_i != tar_test))
         kmin.append((error_rate[i-1],i))
+    plt.figure(figsize=(10,6))
+    plt.plot(range(1,20),error_rate, color = 'red',linestyle = 'dashed', marker = 'o', markerfacecolor='red',markersize=10)
+    plt.title('Error Rate vs. Value of K')
+    plt.xlabel('Value of K')
+    plt.ylabel('Error Rate')
+    plt.show()
     kmin.sort()
     ka=kmin[0][1] # minimum K value found!
     km.append(ka)
@@ -86,7 +92,7 @@ for x in range(5):
     # print(kmsum)
     k=math.ceil(kmsum/5)
     # print(k)
-print("                       THE AVERAGE K ANALYSIS")
+print("                      THE KNN ANALYSIS")
 for x in range(5):
     test=[]
     train=[]
@@ -106,18 +112,19 @@ for x in range(5):
     print("Accuracy is: "+str(a)+'%')
     accuracy_list.append(sklearn.metrics.accuracy_score(tar_test,pred)*100)
     print(confusion_matrix(tar_test,pred))
-    print('\n')
+    # print('\n')
     print('The F-Score Report:')
     print(classification_report(tar_test,pred))
 l=[int(x) for x in accuracy_list]
 print
-with open("KNN_Average_K_Accuracy.csv", "w") as fp_out:
+with open("KNN_Accuracy.csv", "w") as fp_out:
     writer = csv.writer(fp_out, delimiter=",")
     writer.writerow(l)
 print("===========================================================")
 print("===========================================================")
-
-print ('\n'+'The Average Accuracy after 5 Fold Cross Validation is: '+ str(int(sum(accuracy_list)/len(accuracy_list)))+'%')#'''
+print ('\n'+'The Average Accuracy after 5 Fold Cross Validation is: '+ str(int(sum(accuracy_list)/len(accuracy_list)))+'%')
+print("===========================================================")
+print("===========================================================")
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
@@ -133,24 +140,15 @@ opacity = 0.8
 v=[]
 for i in range(len(accuracy_list)):
     v.append(int(accuracy_list[i]))
-# print(v)
 rects1 = plt.bar(index, v, bar_width,
                  alpha=opacity,
                  color='b',
-                 label='KNN_Average_K')
-#
-# rects2 = plt.bar(index + bar_width, l, bar_width,
-#                  alpha=opacity,
-#                  color='g',
-#                  label='Decision Tree')
-
+                 label='KNN')
 plt.xlabel('Folds')
 plt.ylabel('Accuracy')
-plt.title('Accuracy by KNN_Average_K')
+plt.title('Accuracy by KNN')
 plt.xticks(index + bar_width, ('1', '2', '3', '4','5'))
 plt.legend()
 
 plt.tight_layout()
 plt.show()
-print("===========================================================")
-print("===========================================================")
